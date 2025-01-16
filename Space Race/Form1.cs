@@ -20,6 +20,11 @@ namespace Space_Race
         List<Rectangle> asteroid = new List<Rectangle>();
         List<int> asteroidSpeeds = new List<int>();
 
+        // lables
+        int P1score = 0;
+        int P2score = 0;
+        int time = 500;
+
         //player score
         int spaceplayer1Score = 0;
         int spaceplayer2Score = 0;
@@ -120,14 +125,23 @@ namespace Space_Race
                 int y = ranGen.Next(23, this.Width);
                 Rectangle newAsteroid = new Rectangle(0, y, asteroidSize, asteroidSize);
                 asteroid.Add(newAsteroid);
-                asteroidSpeeds.Add(ranGen.Next(2, 7));
+                asteroidSpeeds.Add(ranGen.Next(2, 5));
+            }
+            else if (ranValue < 80)
+            {
+                int size = ranGen.Next(5, 20);
+                int y = ranGen.Next(23, this.Width);
+                Rectangle newAsteroid = new Rectangle(570, y, asteroidSize, asteroidSize);
+                asteroid.Add(newAsteroid);
+                asteroidSpeeds.Add(-2);
+
             }
 
             //astroid movments 
             for (int i = 0; i < asteroid.Count; i++)
             {
                 int x = asteroid[i].X + asteroidSpeeds[i];
-                asteroid[i] = new Rectangle(x,asteroid[i].Y, asteroid[i].Width, asteroid[i].Height);
+                asteroid[i] = new Rectangle(x, asteroid[i].Y, asteroid[i].Width, asteroid[i].Height);
             }
 
             //Remove if astroid goes off screen 
@@ -136,9 +150,28 @@ namespace Space_Race
                 if (asteroid[i].X > this.Width)
                 {
                     asteroid.RemoveAt(i);
+                    asteroidSpeeds.RemoveAt(i);
                 }
             }
 
+            //Add point to player and resets corasponding player 
+            if (spacePlayer1.Y < 10)
+            {
+                P1score += 1;
+
+                spacePlayer1.X = (135);
+                spacePlayer1.Y = (360);
+            }
+
+            if (spacePlayer2.Y < 10)
+            {
+                P2score += 1;
+
+                spacePlayer2.X = (390);
+                spacePlayer2.Y = (360);
+            }
+
+            
 
             Refresh();
 
@@ -150,7 +183,12 @@ namespace Space_Race
             e.Graphics.DrawRectangle(whitePen, spacePlayer1);
             e.Graphics.DrawRectangle(whitePen, spacePlayer2);
 
+            //draw timer 
             e.Graphics.FillRectangle(whiteBrush, 287, 5, 7, 405);
+
+            //update labels
+            player1ScoreLabel.Text = $"{P1score}";
+            player2ScoreLabel.Text = $"{P2score}";
 
             //draw astroid 
             for (int i = 0; i < asteroid.Count; i++)

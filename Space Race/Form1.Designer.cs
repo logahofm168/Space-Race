@@ -30,6 +30,8 @@
         {
             this.components = new System.ComponentModel.Container();
             this.gameTimer = new System.Windows.Forms.Timer(this.components);
+            this.player1ScoreLabel = new System.Windows.Forms.Label();
+            this.player2ScoreLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // gameTimer
@@ -38,12 +40,34 @@
             this.gameTimer.Interval = 20;
             this.gameTimer.Tick += new System.EventHandler(this.gameTimer_Tick);
             // 
+            // player1ScoreLabel
+            // 
+            this.player1ScoreLabel.Font = new System.Drawing.Font("Stencil", 28.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.player1ScoreLabel.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.player1ScoreLabel.Location = new System.Drawing.Point(12, 420);
+            this.player1ScoreLabel.Name = "player1ScoreLabel";
+            this.player1ScoreLabel.Size = new System.Drawing.Size(104, 92);
+            this.player1ScoreLabel.TabIndex = 0;
+            this.player1ScoreLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // player2ScoreLabel
+            // 
+            this.player2ScoreLabel.Font = new System.Drawing.Font("Stencil", 28.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.player2ScoreLabel.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.player2ScoreLabel.Location = new System.Drawing.Point(656, 420);
+            this.player2ScoreLabel.Name = "player2ScoreLabel";
+            this.player2ScoreLabel.Size = new System.Drawing.Size(104, 92);
+            this.player2ScoreLabel.TabIndex = 1;
+            this.player2ScoreLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.ClientSize = new System.Drawing.Size(772, 512);
+            this.Controls.Add(this.player2ScoreLabel);
+            this.Controls.Add(this.player1ScoreLabel);
             this.DoubleBuffered = true;
             this.Name = "Form1";
             this.Text = "Space Race ";
@@ -56,6 +80,8 @@
 
         #endregion
         private System.Windows.Forms.Timer gameTimer;
+        private System.Windows.Forms.Label player1ScoreLabel;
+        private System.Windows.Forms.Label player2ScoreLabel;
     }
 }
 
