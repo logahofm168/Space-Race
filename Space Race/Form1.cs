@@ -35,7 +35,7 @@ namespace Space_Race
 
         //asteroid variabels 
         int asteroidSpeed = 4;
-        int asteroidSize = 5;
+        int asteroidSize = 4;
 
         //player movments
         bool upPressed = false;
@@ -119,22 +119,21 @@ namespace Space_Race
             //create asteroid
             int ranValue = ranGen.Next(0, 101);
 
-            if (ranValue < 50)
+            if (ranValue < 20)
             {
-                int size = ranGen.Next(5, 20);
-                int y = ranGen.Next(23, this.Width);
+                int size = ranGen.Next(5, 15);
+                int y = ranGen.Next(0, this.Width - 285);
                 Rectangle newAsteroid = new Rectangle(0, y, asteroidSize, asteroidSize);
                 asteroid.Add(newAsteroid);
-                asteroidSpeeds.Add(ranGen.Next(2, 5));
+                asteroidSpeeds.Add(ranGen.Next(2, 3));
             }
-            else if (ranValue < 80)
+            else if (ranValue < 30)
             {
-                int size = ranGen.Next(5, 20);
-                int y = ranGen.Next(23, this.Width);
+                int size = ranGen.Next(5, 15);
+                int y = ranGen.Next(0, this.Width - 285);
                 Rectangle newAsteroid = new Rectangle(570, y, asteroidSize, asteroidSize);
                 asteroid.Add(newAsteroid);
                 asteroidSpeeds.Add(-2);
-
             }
 
             //astroid movments 
@@ -147,17 +146,32 @@ namespace Space_Race
             //Remove if astroid goes off screen 
             for (int i = 0; i < asteroid.Count; i++)
             {
-                if (asteroid[i].X > this.Width)
+                if (asteroid[i].X > 600)
                 {
                     asteroid.RemoveAt(i);
                     asteroidSpeeds.RemoveAt(i);
                 }
             }
 
+            //check if either player hits an astroid and reset them 
+            for (int i = 0; i < asteroid.Count; i++)
+            {
+                if (spacePlayer1.IntersectsWith(asteroid[i]))
+                {
+                    spacePlayer1.X = (135);
+                    spacePlayer1.Y = (360);
+                }
+                else if (spacePlayer2.IntersectsWith(asteroid[i]))
+                {
+                    spacePlayer2.X = (390);
+                    spacePlayer2.Y = (360);
+                }
+            }
+
             //Add point to player and resets corasponding player 
             if (spacePlayer1.Y < 10)
             {
-                P1score += 1;
+                P1score++;
 
                 spacePlayer1.X = (135);
                 spacePlayer1.Y = (360);
@@ -165,13 +179,41 @@ namespace Space_Race
 
             if (spacePlayer2.Y < 10)
             {
-                P2score += 1;
+                P2score++;
 
                 spacePlayer2.X = (390);
                 spacePlayer2.Y = (360);
             }
 
+            //check player score, if player score is three stop timer
+            if (P1score == 3)
+            {
+                gameTimer.Stop();
+
+                winnerLabel.Visible = true;
+                winnerLabel.Text = "player 1 wins";
+            }
+            else if (P2score == 3)
+            {
+                gameTimer.Stop();
+
+                winnerLabel.Visible = true;
+                winnerLabel.Text = "player 2 wins";
+            }
             
+            if (P1score == 3 && P2score == 3)
+            {
+                gameTimer.Stop();
+
+                winnerLabel.Visible = true;
+                winnerLabel.Text = "draw play again";
+            }
+
+            //check if either player has hit the bottom
+            //if(spacePlayer1.Y > this.Height - spacePlayer1.Height)
+            //{
+            //    spacePlayer1.Y > this.Height - spacePlayer1.Height;
+            //}
 
             Refresh();
 

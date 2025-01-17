@@ -32,6 +32,7 @@
             this.gameTimer = new System.Windows.Forms.Timer(this.components);
             this.player1ScoreLabel = new System.Windows.Forms.Label();
             this.player2ScoreLabel = new System.Windows.Forms.Label();
+            this.winnerLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // gameTimer
@@ -60,12 +61,24 @@
             this.player2ScoreLabel.TabIndex = 1;
             this.player2ScoreLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // winnerLabel
+            // 
+            this.winnerLabel.Font = new System.Drawing.Font("Stencil", 19.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.winnerLabel.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.winnerLabel.Location = new System.Drawing.Point(216, 168);
+            this.winnerLabel.Name = "winnerLabel";
+            this.winnerLabel.Size = new System.Drawing.Size(359, 116);
+            this.winnerLabel.TabIndex = 2;
+            this.winnerLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.winnerLabel.Visible = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.ClientSize = new System.Drawing.Size(772, 512);
+            this.Controls.Add(this.winnerLabel);
             this.Controls.Add(this.player2ScoreLabel);
             this.Controls.Add(this.player1ScoreLabel);
             this.DoubleBuffered = true;
@@ -82,6 +95,7 @@
         private System.Windows.Forms.Timer gameTimer;
         private System.Windows.Forms.Label player1ScoreLabel;
         private System.Windows.Forms.Label player2ScoreLabel;
+        private System.Windows.Forms.Label winnerLabel;
     }
 }
 
