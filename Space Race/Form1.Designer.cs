@@ -33,6 +33,7 @@
             this.player1ScoreLabel = new System.Windows.Forms.Label();
             this.player2ScoreLabel = new System.Windows.Forms.Label();
             this.winnerLabel = new System.Windows.Forms.Label();
+            this.countDownTimer = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // gameTimer
@@ -69,8 +70,14 @@
             this.winnerLabel.Name = "winnerLabel";
             this.winnerLabel.Size = new System.Drawing.Size(359, 116);
             this.winnerLabel.TabIndex = 2;
-            this.winnerLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.winnerLabel.Visible = false;
+            this.winnerLabel.Text = "3 ...";
+            this.winnerLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // countDownTimer
+            // 
+            this.countDownTimer.Enabled = true;
+            this.countDownTimer.Interval = 1000;
+            this.countDownTimer.Tick += new System.EventHandler(this.countDownTimer_Tick);
             // 
             // Form1
             // 
@@ -96,6 +103,7 @@
         private System.Windows.Forms.Label player1ScoreLabel;
         private System.Windows.Forms.Label player2ScoreLabel;
         private System.Windows.Forms.Label winnerLabel;
+        private System.Windows.Forms.Timer countDownTimer;
     }
 }
 

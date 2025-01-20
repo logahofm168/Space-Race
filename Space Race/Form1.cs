@@ -5,8 +5,9 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Windows.Forms;
+using System.Media;
 
 namespace Space_Race
 {
@@ -24,6 +25,7 @@ namespace Space_Race
         int P1score = 0;
         int P2score = 0;
         int time = 500;
+        int countdown = 3;
 
         //player score
         int spaceplayer1Score = 0;
@@ -48,6 +50,9 @@ namespace Space_Race
 
         Random ranGen = new Random();
         int ranValue = 0;
+
+        // plays music
+        SoundPlayer soundPlayer = new SoundPlayer();
 
         public Form1()
         {
@@ -94,32 +99,44 @@ namespace Space_Race
 
         private void gameTimer_Tick(object sender, EventArgs e)
         {
+
+
             //move space player 1
-            if (wPressed == true && spacePlayer1.Y > 0)
+            if (countdown == 0)
             {
-                spacePlayer1.Y -= spacePlayer1Speed;
-            }
+                if (wPressed == true && spacePlayer1.Y > 0)
+                {
+                    spacePlayer1.Y -= spacePlayer1Speed;
 
-            if (sPressed == true && spacePlayer1.Y < this.Height - spacePlayer1.Height)
+                }
+            }
+            if (countdown == 0)
             {
-                spacePlayer1.Y += spacePlayer1Speed;
+                if (sPressed == true && spacePlayer1.Y < this.Height - spacePlayer1.Height)
+                {
+                    spacePlayer1.Y += spacePlayer1Speed;
+                }
             }
-
             //move space player 2
-            if (upPressed == true && spacePlayer2.Y > 0)
+            if (countdown == 0)
             {
-                spacePlayer2.Y -= spacePlayer2Speed;
+                if (upPressed == true && spacePlayer2.Y > 0)
+                {
+                    spacePlayer2.Y -= spacePlayer2Speed;
+                }
             }
-
-            if (downPressed == true && spacePlayer2.Y < this.Height - spacePlayer2.Height)
+            if (countdown == 0)
             {
-                spacePlayer2.Y += spacePlayer2Speed;
+                if (downPressed == true && spacePlayer2.Y < this.Height - spacePlayer2.Height)
+                {
+                    spacePlayer2.Y += spacePlayer2Speed;
+                }
             }
 
             //create asteroid
             int ranValue = ranGen.Next(0, 101);
 
-            if (ranValue < 20)
+            if (ranValue < 10)
             {
                 int size = ranGen.Next(5, 15);
                 int y = ranGen.Next(0, this.Width - 285);
@@ -127,13 +144,13 @@ namespace Space_Race
                 asteroid.Add(newAsteroid);
                 asteroidSpeeds.Add(ranGen.Next(2, 3));
             }
-            else if (ranValue < 30)
+            else if (ranValue < 20)
             {
                 int size = ranGen.Next(5, 15);
                 int y = ranGen.Next(0, this.Width - 285);
                 Rectangle newAsteroid = new Rectangle(570, y, asteroidSize, asteroidSize);
                 asteroid.Add(newAsteroid);
-                asteroidSpeeds.Add(-2);
+                asteroidSpeeds.Add( -2);
             }
 
             //astroid movments 
@@ -200,7 +217,7 @@ namespace Space_Race
                 winnerLabel.Visible = true;
                 winnerLabel.Text = "player 2 wins";
             }
-            
+
             if (P1score == 3 && P2score == 3)
             {
                 gameTimer.Stop();
@@ -209,13 +226,45 @@ namespace Space_Race
                 winnerLabel.Text = "draw play again";
             }
 
+
+
             //check if either player has hit the bottom
-            //if(spacePlayer1.Y > this.Height - spacePlayer1.Height)
-            //{
-            //    spacePlayer1.Y > this.Height - spacePlayer1.Height;
-            //}
+            if (spacePlayer1.Y > 380)
+            {
+                spacePlayer1.Y = 379;
+            }
+
+            if (spacePlayer2.Y > 380)
+            {
+                spacePlayer2.Y = 379;
+            }
+
 
             Refresh();
+
+        }
+
+        private void countDownTimer_Tick(object sender, EventArgs e)
+        {
+            //puts a count down at the beginning of the race 
+            countdown--;
+
+
+            //enadled = false;
+            if (countdown > 0)
+            {
+                winnerLabel.Text = countdown + "...";
+            }
+            else if (countdown == 0)
+            {
+                winnerLabel.ForeColor = Color.Green;
+                winnerLabel.Text = "GO";
+            }
+            else
+            {
+                winnerLabel.Visible = false;
+                countDownTimer.Enabled = false;
+            }
 
         }
 
