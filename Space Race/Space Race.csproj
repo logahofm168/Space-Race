@@ -86,5 +86,8 @@
   <ItemGroup>
     <None Include="Resources\518305__mrthenoronha__stage-clear-8-bit.wav" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\334266__aceofspadesproduc100__short-explosion-1.wav" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

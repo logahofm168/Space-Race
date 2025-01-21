@@ -38,6 +38,7 @@ namespace Space_Race
         //asteroid variabels 
         int asteroidSpeed = 4;
         int asteroidSize = 4;
+        int UFOSize = 7;
 
         //player movments
         bool upPressed = false;
@@ -53,6 +54,8 @@ namespace Space_Race
 
         // plays music
         SoundPlayer soundPlayer = new SoundPlayer();
+
+        SoundPlayer soundPlayer2 = new SoundPlayer();
 
         public Form1()
         {
@@ -100,38 +103,29 @@ namespace Space_Race
         private void gameTimer_Tick(object sender, EventArgs e)
         {
 
-
             //move space player 1
-            if (countdown == 0)
-            {
-                if (wPressed == true && spacePlayer1.Y > 0)
+            if ( countdown <= 0 && wPressed == true && spacePlayer1.Y > 0 )
                 {
                     spacePlayer1.Y -= spacePlayer1Speed;
 
                 }
-            }
-            if (countdown == 0)
-            {
-                if (sPressed == true && spacePlayer1.Y < this.Height - spacePlayer1.Height)
+
+                if (countdown <= 0 && sPressed == true && spacePlayer1.Y < this.Height - spacePlayer1.Height)
                 {
                     spacePlayer1.Y += spacePlayer1Speed;
                 }
-            }
+
             //move space player 2
-            if (countdown == 0)
-            {
-                if (upPressed == true && spacePlayer2.Y > 0)
+            
+                if (countdown <= 0 && upPressed == true && spacePlayer2.Y > 0)
                 {
                     spacePlayer2.Y -= spacePlayer2Speed;
                 }
-            }
-            if (countdown == 0)
-            {
-                if (downPressed == true && spacePlayer2.Y < this.Height - spacePlayer2.Height)
+
+                if (countdown <= 0 && downPressed == true && spacePlayer2.Y < this.Height - spacePlayer2.Height)
                 {
                     spacePlayer2.Y += spacePlayer2Speed;
                 }
-            }
 
             //create asteroid
             int ranValue = ranGen.Next(0, 101);
@@ -150,7 +144,7 @@ namespace Space_Race
                 int y = ranGen.Next(0, this.Width - 285);
                 Rectangle newAsteroid = new Rectangle(570, y, asteroidSize, asteroidSize);
                 asteroid.Add(newAsteroid);
-                asteroidSpeeds.Add( -2);
+                asteroidSpeeds.Add(-2);
             }
 
             //astroid movments 
@@ -177,11 +171,17 @@ namespace Space_Race
                 {
                     spacePlayer1.X = (135);
                     spacePlayer1.Y = (360);
+
+                    soundPlayer = new SoundPlayer(Properties.Resources.explosion);
+                    soundPlayer.Play();
                 }
                 else if (spacePlayer2.IntersectsWith(asteroid[i]))
                 {
                     spacePlayer2.X = (390);
                     spacePlayer2.Y = (360);
+
+                    soundPlayer = new SoundPlayer(Properties.Resources.explosion);
+                    soundPlayer.Play();
                 }
             }
 
@@ -206,24 +206,37 @@ namespace Space_Race
             if (P1score == 3)
             {
                 gameTimer.Stop();
+                
+                playerOneWinnerLabel.Visible = true;
+                playerOneWinnerLabel.Text = "Winner";
+                playerTwoWinnerLabel.Visible = true;
+                playerTwoWinnerLabel.Text = "Loser";
 
-                winnerLabel.Visible = true;
-                winnerLabel.Text = "player 1 wins";
+                soundPlayer = new SoundPlayer(Properties.Resources.Victory_music);
+                soundPlayer.Play();
             }
             else if (P2score == 3)
             {
                 gameTimer.Stop();
 
-                winnerLabel.Visible = true;
-                winnerLabel.Text = "player 2 wins";
+                playerTwoWinnerLabel.Visible = true;
+                playerTwoWinnerLabel.Text = "Winner";
+                playerOneWinnerLabel.Visible = true;
+                playerOneWinnerLabel.Text = "Loser";
+
+                soundPlayer = new SoundPlayer(Properties.Resources.Victory_music);
+                soundPlayer.Play();
             }
 
             if (P1score == 3 && P2score == 3)
             {
                 gameTimer.Stop();
 
-                winnerLabel.Visible = true;
-                winnerLabel.Text = "draw play again";
+                timeLabel.ForeColor = Color.White;
+                playerTwoWinnerLabel.Visible = false;
+                playerOneWinnerLabel.Visible = false;
+                timeLabel.Visible = true;
+                timeLabel.Text = "draw play again";
             }
 
 
@@ -253,16 +266,16 @@ namespace Space_Race
             //enadled = false;
             if (countdown > 0)
             {
-                winnerLabel.Text = countdown + "...";
+                timeLabel.Text = countdown + "...";
             }
             else if (countdown == 0)
             {
-                winnerLabel.ForeColor = Color.Green;
-                winnerLabel.Text = "GO";
+                timeLabel.ForeColor = Color.Green;
+                timeLabel.Text = "GO";
             }
             else
             {
-                winnerLabel.Visible = false;
+                timeLabel.Visible = false;
                 countDownTimer.Enabled = false;
             }
 
@@ -280,6 +293,8 @@ namespace Space_Race
             //update labels
             player1ScoreLabel.Text = $"{P1score}";
             player2ScoreLabel.Text = $"{P2score}";
+
+            
 
             //draw astroid 
             for (int i = 0; i < asteroid.Count; i++)
