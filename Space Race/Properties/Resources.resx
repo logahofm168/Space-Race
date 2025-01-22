@@ -121,8 +121,14 @@
   <data name="background music" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\518308__mrthenoronha__world-clear-8-bit.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="Draw" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\518304__mrthenoronha__hurry-up-8-bit.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="explosion" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\334266__aceofspadesproduc100__short-explosion-1.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Point" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\518306__mrthenoronha__extra-life-8-bit.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="Victory music" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\518305__mrthenoronha__stage-clear-8-bit.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
