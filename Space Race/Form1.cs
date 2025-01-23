@@ -41,7 +41,7 @@ namespace Space_Race
         int asteroidSize = 4;
 
         //UFO variabels
-        int UFOSpeed = -15;
+        int UFOSpeed = -20;
 
         //player movments
         bool upPressed = false;
@@ -65,7 +65,7 @@ namespace Space_Race
         {
             InitializeComponent();
             int y = ranGen.Next(0, this.Height - 50);
-            UFO = new Rectangle(300, y, 30, 10);
+            UFO = new Rectangle(500, y, 30, 10);
         }
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
@@ -136,24 +136,24 @@ namespace Space_Race
                 }
 
             //create asteroid
-            //int ranValue = ranGen.Next(0, 101);
+            int ranValue = ranGen.Next(0, 101);
 
-            //if (ranValue < 10)
-            //{
-            //    int size = ranGen.Next(5, 15);
-            //    int y = ranGen.Next(0, this.Width - 285);
-            //    Rectangle newAsteroid = new Rectangle(0, y, asteroidSize, asteroidSize);
-            //    asteroid.Add(newAsteroid);
-            //    asteroidSpeeds.Add(ranGen.Next(2, 3));
-            //}
-            //else if (ranValue < 20)
-            //{
-            //    int size = ranGen.Next(5, 15);
-            //    int y = ranGen.Next(0, this.Width - 285);
-            //    Rectangle newAsteroid = new Rectangle(570, y, asteroidSize, asteroidSize);
-            //    asteroid.Add(newAsteroid);
-            //    asteroidSpeeds.Add(-2);
-            //}
+            if (ranValue < 10)
+            {
+                int size = ranGen.Next(5, 15);
+                int y = ranGen.Next(0, this.Width - 285);
+                Rectangle newAsteroid = new Rectangle(0, y, asteroidSize, asteroidSize);
+                asteroid.Add(newAsteroid);
+                asteroidSpeeds.Add(ranGen.Next(2, 3));
+            }
+            else if (ranValue < 20)
+            {
+                int size = ranGen.Next(5, 15);
+                int y = ranGen.Next(0, this.Width - 285);
+                Rectangle newAsteroid = new Rectangle(570, y, asteroidSize, asteroidSize);
+                asteroid.Add(newAsteroid);
+                asteroidSpeeds.Add(-2);
+            }
 
             //astroid movments 
             for (int i = 0; i < asteroid.Count; i++)
@@ -196,8 +196,10 @@ namespace Space_Race
             // Resets UFO when off screen
             if(UFO.X < -450)
             {
-                UFO.X = (300);
-                UFO.Y = (200);
+                int y = ranGen.Next(0, this.Width - 295);
+                UFO = new Rectangle(500, y, 30, 10);
+                UFOSpeed = ranGen.Next(-20, -15);
+
             }
 
             // resets player when they hit the UFO
@@ -205,6 +207,14 @@ namespace Space_Race
             {
                 spacePlayer1.X = (135);
                 spacePlayer1.Y = (360);
+
+                soundPlayer = new SoundPlayer(Properties.Resources.explosion);
+                soundPlayer.Play();
+            }
+            else if (spacePlayer2.IntersectsWith(UFO))
+            {
+                spacePlayer2.X = (390);
+                spacePlayer2.Y = (360);
 
                 soundPlayer = new SoundPlayer(Properties.Resources.explosion);
                 soundPlayer.Play();
@@ -320,6 +330,12 @@ namespace Space_Race
             //draw players
             e.Graphics.DrawRectangle(whitePen, spacePlayer1);
             e.Graphics.DrawRectangle(whitePen, spacePlayer2);
+
+            e.Graphics.DrawLine(whitePen, spacePlayer1.X, spacePlayer1.Y, spacePlayer1.X  + spacePlayer1.Width/2, spacePlayer1.Y - 10);
+            e.Graphics.DrawLine(whitePen, spacePlayer1.X + spacePlayer1.Width/2, spacePlayer1.Y - 10, spacePlayer1.X+10, spacePlayer1.Y);
+
+            e.Graphics.DrawLine(whitePen, spacePlayer2.X, spacePlayer2.Y, spacePlayer2.X + spacePlayer2.Width / 2, spacePlayer2.Y - 10);
+            e.Graphics.DrawLine(whitePen, spacePlayer2.X + spacePlayer2.Width / 2, spacePlayer2.Y - 10, spacePlayer2.X + 10, spacePlayer2.Y);
 
             // draw UFO
             e.Graphics.DrawEllipse(whitePen, UFO);
