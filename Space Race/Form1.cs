@@ -108,32 +108,11 @@ namespace Space_Race
 
         private void gameTimer_Tick(object sender, EventArgs e)
         {
-            // UFO movments 
-            UFO.X += UFOSpeed;
+            allMovments();
 
-            //move space player 1
-            if ( countdown <= 0 && wPressed == true && spacePlayer1.Y > 0 )
-                {
-                    spacePlayer1.Y -= spacePlayer1Speed;
+            collionsAndResets();
 
-                }
-
-                if (countdown <= 0 && sPressed == true && spacePlayer1.Y < this.Height - spacePlayer1.Height)
-                {
-                    spacePlayer1.Y += spacePlayer1Speed;
-                }
-
-            //move space player 2
-            
-                if (countdown <= 0 && upPressed == true && spacePlayer2.Y > 0)
-                {
-                    spacePlayer2.Y -= spacePlayer2Speed;
-                }
-
-                if (countdown <= 0 && downPressed == true && spacePlayer2.Y < this.Height - spacePlayer2.Height)
-                {
-                    spacePlayer2.Y += spacePlayer2Speed;
-                }
+            playerScoreAndPoints();
 
             //create asteroid
             int ranValue = ranGen.Next(0, 101);
@@ -154,136 +133,6 @@ namespace Space_Race
                 asteroid.Add(newAsteroid);
                 asteroidSpeeds.Add(-2);
             }
-
-            //astroid movments 
-            for (int i = 0; i < asteroid.Count; i++)
-            {
-                int x = asteroid[i].X + asteroidSpeeds[i];
-                asteroid[i] = new Rectangle(x, asteroid[i].Y, asteroid[i].Width, asteroid[i].Height);
-            }
-
-            //Remove if astroid goes off screen 
-            for (int i = 0; i < asteroid.Count; i++)
-            {
-                if (asteroid[i].X > 600)
-                {
-                    asteroid.RemoveAt(i);
-                    asteroidSpeeds.RemoveAt(i);
-                }
-            }
-
-            //check if either player hits an astroid and reset them 
-            for (int i = 0; i < asteroid.Count; i++)
-            {
-                if (spacePlayer1.IntersectsWith(asteroid[i]))
-                {
-                    spacePlayer1.X = (135);
-                    spacePlayer1.Y = (360);
-
-                    soundPlayer = new SoundPlayer(Properties.Resources.explosion);
-                    soundPlayer.Play();
-                }
-                else if (spacePlayer2.IntersectsWith(asteroid[i]))
-                {
-                    spacePlayer2.X = (390);
-                    spacePlayer2.Y = (360);
-
-                    soundPlayer = new SoundPlayer(Properties.Resources.explosion);
-                    soundPlayer.Play();
-                }
-            }
-
-            // Resets UFO when off screen
-            if(UFO.X < -450)
-            {
-                int y = ranGen.Next(0, this.Width - 295);
-                UFO = new Rectangle(500, y, 30, 10);
-                UFOSpeed = ranGen.Next(-20, -15);
-
-            }
-
-            // resets player when they hit the UFO
-            if (spacePlayer1.IntersectsWith(UFO))
-            {
-                spacePlayer1.X = (135);
-                spacePlayer1.Y = (360);
-
-                soundPlayer = new SoundPlayer(Properties.Resources.explosion);
-                soundPlayer.Play();
-            }
-            else if (spacePlayer2.IntersectsWith(UFO))
-            {
-                spacePlayer2.X = (390);
-                spacePlayer2.Y = (360);
-
-                soundPlayer = new SoundPlayer(Properties.Resources.explosion);
-                soundPlayer.Play();
-            }
-
-            //Add point to player and resets corasponding player 
-            if (spacePlayer1.Y < 10)
-            {
-                P1score++;
-
-                spacePlayer1.X = (135);
-                spacePlayer1.Y = (360);
-
-                soundPlayer = new SoundPlayer(Properties.Resources.Point);
-                soundPlayer.Play();
-            }
-
-            if (spacePlayer2.Y < 10)
-            {
-                P2score++;
-
-                spacePlayer2.X = (390);
-                spacePlayer2.Y = (360);
-
-                soundPlayer = new SoundPlayer(Properties.Resources.Point);
-                soundPlayer.Play();
-            }
-
-            //check player score, if player score is three stop timer
-            if (P1score == 3)
-            {
-                gameTimer.Stop();
-                
-                playerOneWinnerLabel.Visible = true;
-                playerOneWinnerLabel.Text = "Winner";
-                playerTwoWinnerLabel.Visible = true;
-                playerTwoWinnerLabel.Text = "Loser";
-
-                soundPlayer = new SoundPlayer(Properties.Resources.Victory_music);
-                soundPlayer.Play();
-            }
-            else if (P2score == 3)
-            {
-                gameTimer.Stop();
-
-                playerTwoWinnerLabel.Visible = true;
-                playerTwoWinnerLabel.Text = "Winner";
-                playerOneWinnerLabel.Visible = true;
-                playerOneWinnerLabel.Text = "Loser";
-
-                soundPlayer = new SoundPlayer(Properties.Resources.Victory_music);
-                soundPlayer.Play();
-            }
-
-            if (P1score == 3 && P2score == 3)
-            {
-                gameTimer.Stop();
-
-                timeLabel.ForeColor = Color.White;
-                playerTwoWinnerLabel.Visible = false;
-                playerOneWinnerLabel.Visible = false;
-                timeLabel.Visible = true;
-                timeLabel.Text = "draw play again";
-
-                soundPlayer = new SoundPlayer(Properties.Resources.Draw);
-                soundPlayer.Play();
-            }
-
-
 
             //check if either player has hit the bottom
             if (spacePlayer1.Y > 380)
@@ -356,6 +205,170 @@ namespace Space_Race
             for (int i = 0; i < asteroid.Count; i++)
             {
                 e.Graphics.FillRectangle(whiteBrush, asteroid[i]);
+            }
+        }
+
+        public void allMovments ()
+        {
+            // UFO movments 
+            UFO.X += UFOSpeed;
+
+            //move space player 1
+            if (countdown <= 0 && wPressed == true && spacePlayer1.Y > 0)
+            {
+                spacePlayer1.Y -= spacePlayer1Speed;
+
+            }
+
+            if (countdown <= 0 && sPressed == true && spacePlayer1.Y < this.Height - spacePlayer1.Height)
+            {
+                spacePlayer1.Y += spacePlayer1Speed;
+            }
+
+            //move space player 2
+
+            if (countdown <= 0 && upPressed == true && spacePlayer2.Y > 0)
+            {
+                spacePlayer2.Y -= spacePlayer2Speed;
+            }
+
+            if (countdown <= 0 && downPressed == true && spacePlayer2.Y < this.Height - spacePlayer2.Height)
+            {
+                spacePlayer2.Y += spacePlayer2Speed;
+            }
+
+            //astroid movments 
+            for (int i = 0; i < asteroid.Count; i++)
+            {
+                int x = asteroid[i].X + asteroidSpeeds[i];
+                asteroid[i] = new Rectangle(x, asteroid[i].Y, asteroid[i].Width, asteroid[i].Height);
+            }
+        }
+
+        public void collionsAndResets ()
+        {
+            //Remove if astroid goes off screen 
+            for (int i = 0; i < asteroid.Count; i++)
+            {
+                if (asteroid[i].X > 600)
+                {
+                    asteroid.RemoveAt(i);
+                    asteroidSpeeds.RemoveAt(i);
+                }
+            }
+
+            //check if either player hits an astroid and reset them 
+            for (int i = 0; i < asteroid.Count; i++)
+            {
+                if (spacePlayer1.IntersectsWith(asteroid[i]))
+                {
+                    spacePlayer1.X = (135);
+                    spacePlayer1.Y = (360);
+
+                    soundPlayer = new SoundPlayer(Properties.Resources.explosion);
+                    soundPlayer.Play();
+                }
+                else if (spacePlayer2.IntersectsWith(asteroid[i]))
+                {
+                    spacePlayer2.X = (390);
+                    spacePlayer2.Y = (360);
+
+                    soundPlayer = new SoundPlayer(Properties.Resources.explosion);
+                    soundPlayer.Play();
+                }
+            }
+
+            // Resets UFO when off screen
+            if (UFO.X < -450)
+            {
+                int y = ranGen.Next(0, this.Width - 295);
+                UFO = new Rectangle(500, y, 30, 10);
+                UFOSpeed = ranGen.Next(-20, -15);
+
+            }
+
+            // resets player when they hit the UFO
+            if (spacePlayer1.IntersectsWith(UFO))
+            {
+                spacePlayer1.X = (135);
+                spacePlayer1.Y = (360);
+
+                soundPlayer = new SoundPlayer(Properties.Resources.explosion);
+                soundPlayer.Play();
+            }
+            else if (spacePlayer2.IntersectsWith(UFO))
+            {
+                spacePlayer2.X = (390);
+                spacePlayer2.Y = (360);
+
+                soundPlayer = new SoundPlayer(Properties.Resources.explosion);
+                soundPlayer.Play();
+            }
+        }
+
+        public void playerScoreAndPoints()
+        {
+            //Add point to player and resets corasponding player 
+            if (spacePlayer1.Y < 10)
+            {
+                P1score++;
+
+                spacePlayer1.X = (135);
+                spacePlayer1.Y = (360);
+
+                soundPlayer = new SoundPlayer(Properties.Resources.Point);
+                soundPlayer.Play();
+            }
+
+            if (spacePlayer2.Y < 10)
+            {
+                P2score++;
+
+                spacePlayer2.X = (390);
+                spacePlayer2.Y = (360);
+
+                soundPlayer = new SoundPlayer(Properties.Resources.Point);
+                soundPlayer.Play();
+            }
+
+            //check player score, if player score is three stop timer
+            if (P1score == 3)
+            {
+                gameTimer.Stop();
+
+                playerOneWinnerLabel.Visible = true;
+                playerOneWinnerLabel.Text = "Winner";
+                playerTwoWinnerLabel.Visible = true;
+                playerTwoWinnerLabel.Text = "Loser";
+
+                soundPlayer = new SoundPlayer(Properties.Resources.Victory_music);
+                soundPlayer.Play();
+            }
+            else if (P2score == 3)
+            {
+                gameTimer.Stop();
+
+                playerTwoWinnerLabel.Visible = true;
+                playerTwoWinnerLabel.Text = "Winner";
+                playerOneWinnerLabel.Visible = true;
+                playerOneWinnerLabel.Text = "Loser";
+
+                soundPlayer = new SoundPlayer(Properties.Resources.Victory_music);
+                soundPlayer.Play();
+            }
+
+            if (P1score == 3 && P2score == 3)
+            {
+                gameTimer.Stop();
+
+                timeLabel.ForeColor = Color.White;
+                playerTwoWinnerLabel.Visible = false;
+                playerOneWinnerLabel.Visible = false;
+                timeLabel.Visible = true;
+                timeLabel.Text = "draw play again";
+
+                soundPlayer = new SoundPlayer(Properties.Resources.Draw);
+                soundPlayer.Play();
             }
         }
     }
